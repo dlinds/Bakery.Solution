@@ -8,11 +8,12 @@
 
 @model LoginViewModel
 
-@if (@ViewBag.PageTitle == "Login")
-{
-  <div class="container bg-light bg-gradient p-5 border rounded-3">
-    <div class="mx-5 p-5 border rounded shadow-sm bg-white">
-      <h3 class="mb-3">@ViewBag.PageTitle</h3>
+
+<div class="container bg-light bg-gradient p-5 border rounded-3">
+  <div class="mx-5 p-5 border rounded shadow-sm bg-white">
+    <h3 class="mb-3">@ViewBag.PageTitle</h3>
+    @if (@ViewBag.PageTitle == "Login")
+    {
       <div class="row">
         <div class="col-7">
           @using (Html.BeginForm())
@@ -32,6 +33,10 @@
           <p class="text-secondary">Don't have an account yet? Register <a href="account/register" class="link-secondary">here</a></p>
         </div>
       </div>
-    </div>
+    }
+    else
+    {
+
+    }
   </div>
-}
+</div>

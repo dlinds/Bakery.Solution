@@ -2,8 +2,6 @@
   Layout = "_Layout";
 }
 
-@using System.Security.Claims
-
 @using Bakery.ViewModels
 
 @model RegisterViewModel
@@ -12,8 +10,11 @@
     <h3 class="mb-3">@ViewBag.PageTitle</h3>
     <div class="row">
       <div class="col-7">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
         {
+          @Html.LabelFor(m => m.Name)
+          @Html.TextBoxFor(m => m.Name, new {@class="form-control mb-3 shadow-sm", required="required" })
+
           @Html.LabelFor(m => m.Email)
           @Html.TextBoxFor(m => m.Email, new {@class="form-control mb-3 shadow-sm", type="email", required="required" })
 

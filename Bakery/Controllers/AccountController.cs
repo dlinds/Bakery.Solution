@@ -19,17 +19,13 @@ namespace Bakery.Controllers
       _db = db;
     }
 
-    public ActionResult Index(int isLoggedIn = 0)
+    public ActionResult Index()
     {
-      if (isLoggedIn == 1)
-      {
-        ViewBag.IsLoggedIn = "true";
-      }
       ViewBag.PageTitle = "Account Details";
       return View();
     }
 
-    public IActionResult Register()
+    public ActionResult Register()
     {
       ViewBag.PageTitle = "Register";
       return View();
@@ -38,20 +34,11 @@ namespace Bakery.Controllers
     [HttpPost]
     public async Task<ActionResult> Register(RegisterViewModel model)
     {
-      ApplicationUser user = new ApplicationUser { UserName = model.Email };
+      var user = new ApplicationUser { UserName = model.Email, Name = model.Name, Email = model.Email };
       IdentityResult result = await _userManager.CreateAsync(user, model.Password);
       if (result.Succeeded)
       {
-        LoginViewModel loginModel = new LoginViewModel();
-        Microsoft.AspNetCore.Identity.SignInResult loginResult = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
-        if (loginResult.Succeeded)
-        {
-          return RedirectToAction("Index", new { isLoggedIn = 1 });
-        }
-        else
-        {
-          return View();
-        }
+        return RedirectToAction("Index");
       }
       else
       {
