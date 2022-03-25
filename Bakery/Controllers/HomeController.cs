@@ -18,7 +18,7 @@ namespace Bakery.Controllers
     [HttpGet("/")]
     public ActionResult Index()
     {
-      ViewBag.PageName = "Bakery";
+      ViewBag.PageTitle = "Bakery";
       return View();
     }
   }

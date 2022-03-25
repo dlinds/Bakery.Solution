@@ -24,3 +24,7 @@
 .bakery-color-darkest {
   background-color: #536B78;
 }
+.form-check-input:checked {
+  background-color: #7C98B3 !important;
+  border-color: #CEE5F2 !important;
+}
