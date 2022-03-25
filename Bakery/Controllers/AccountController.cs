@@ -25,12 +25,13 @@ namespace Bakery.Controllers
       {
         ViewBag.IsLoggedIn = "true";
       }
-      ViewBag.PageTitle = "Register";
+      ViewBag.PageTitle = "Account Details";
       return View();
     }
 
     public IActionResult Register()
     {
+      ViewBag.PageTitle = "Register";
       return View();
     }
 
