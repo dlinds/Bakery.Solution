@@ -25,7 +25,7 @@ namespace Bakery.Controllers
       {
         ViewBag.IsLoggedIn = "true";
       }
-      ViewBag.PageTitle = "Login";
+      ViewBag.PageTitle = "Register";
       return View();
     }
 
