@@ -1,0 +1,8 @@
+.menu-item {
+  background-color:#fff;
+  transition: .5s;
+}
+.menu-item:hover {
+  background-color:#fbfbfb;
+  transition: .5s;
+}
