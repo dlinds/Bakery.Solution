@@ -30,5 +30,15 @@ namespace Library.Controllers
       ViewBag.PageTitle = "Treats";
       return View(model);
     }
+
+    [HttpPost]
+    public ActionResult Edit(Treat treat)
+    {
+      Console.WriteLine(treat);
+      _db.Entry(treat).State = EntityState.Modified;
+      _db.SaveChanges();
+      string message = treat.Name + " was successfully added";
+      return Json(new { Message = message });
+    }
   }
 }

@@ -42,11 +42,11 @@
     <h3 class="mb-3">List of treats</h3>
     @foreach (Treat treat in Model)
     {
-      <div class="card my-3 shadow-sm">
+      <div class="card my-3 shadow-sm" id="treatCard-@treat.TreatId">
         <div class="card-header">
           <div class="row">
             <div class="col-8">
-              <h4>@treat.Name</h4>
+              <h4 id="cardTitle-@treat.TreatId">@treat.Name</h4>
             </div>
             <div class="col-4">
               <button type="button" class="btn bakery-color-middle badge rounded-pill">Add to cart</button>
@@ -56,15 +56,15 @@
               <div class="modal fade" id="editModal-@treat.TreatId" tabindex="-1" aria-labelledby="editModalLabel-@treat.TreatId" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
-                    <form>
+                    <form id="editForm-@treat.TreatId">
                       <div class="modal-header">
                         <h5 class="modal-title" id="editModalLabel-@treat.TreatId">@treat.Name</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body mb-3">
-
+                        <input type="hidden" value="@treat.TreatId" id="TreatId-@treat.TreatId">
                         <label for="Name">@treat.Name</label>
-                        <input type="text" class="form-control shadow-sm my-2" name="Name" id="treatName-@treat.TreatId" value="@treat.Name" placeholder="Enter in a new name" required>
+                        <input type="text" class="form-control shadow-sm my-2" name="Name" id="TreatName-@treat.TreatId" value="@treat.Name" placeholder="Enter in a new name" required>
                         <label for="Description">@treat.Description</label>
                         <input type="text" class="form-control shadow-sm my-2" name="Description" id="treatDescription-@treat.TreatId" value="@treat.Description" placeholder="Enter in a new description" required>
                         <label for="CountryOfOrigin">Country of Origin</label>
@@ -81,7 +81,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm bakery-color-darkest">Save changes</button>
+                        <button type="submit" class="btn btn-primary btn-sm bakery-color-darkest">Save changes</button>
                       </div>
                     </form>
                   </div>
@@ -102,9 +102,6 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
                       <button type="button" class="btn btn-danger btn-sm" id="delete-@treat.TreatId">Yes, delete</button>
-                      <script>
-                        DeleteTreat(@treat.TreatId);
-                      </script>
                     </div>
                   </div>
                 </div>
@@ -114,12 +111,15 @@
         </div>
         <div class="card-body">
           <div class="card-text">
-            <h6>From: @treat.CountryOfOrigin</h6>
+            <h6>From: <span id="cardCountry-@treat.TreatId">@treat.CountryOfOrigin</span></h6>
             <br>
-            @treat.Description
+            <span id="cardDescription-@treat.TreatId">@treat.Description</span>
           </div>
         </div>
       </div>
+      <script>
+        CreateClickHandlersForEditDelete(@treat.TreatId);
+      </script>
     }
   </div>
 </div>
