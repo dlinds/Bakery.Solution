@@ -16,7 +16,7 @@
   <div class="container shadow-sm">
     <ul class="nav nav-justified shadow-sm">
       <li class="nav-item py-2 px-5 border-end menu-item">
-        <a class="nav-link link-secondary" href="/">home</a>
+        <a class="nav-link link-secondary" href="/">Home</a>
       </li>
       <li class="nav-item py-2 px-5 border-end menu-item">
         <a class="nav-link link-secondary" href="#">Treats</a>
@@ -24,11 +24,12 @@
       <li class="nav-item py-2 px-5 border-end menu-item">
         <a class="nav-link link-secondary" href="#">Flavors</a>
       </li>
-      <li class="nav-item py-2 px-5 border-end menu-item">
-        <a class="nav-link link-secondary" href="/Account">account</a>
-      </li>
-      <li class="nav-item py-2 px-5 menu-item">
-        <input class="form-control text-center" type="search" placeholder="search" aria-label="Search">
+      <li class="nav-item dropdown py-2 px-5 border-end menu-item">
+        <a class="nav-link dropdown-toggle link-secondary" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Account</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/Account">Account Info</a></li>
+          <li><a class="dropdown-item" href="#">Logout</a></li>
+        </ul>
       </li>
     </ul>
     <div class="container-fluid px-0 pt-3 pb-5 ">
