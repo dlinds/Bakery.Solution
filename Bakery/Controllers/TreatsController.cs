@@ -26,8 +26,9 @@ namespace Library.Controllers
 
     public ActionResult Index()
     {
+      List<Treat> model = _db.Treats.ToList();
       ViewBag.PageTitle = "Treats";
-      return View();
+      return View(model);
     }
   }
 }
