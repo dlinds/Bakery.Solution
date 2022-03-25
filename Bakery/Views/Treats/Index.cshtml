@@ -1,0 +1,67 @@
+@{
+  Layout = "_Layout";
+}
+@using System.Security.Claims
+
+@using Bakery.ViewModels
+
+
+
+<div class="container bg-light bg-gradient p-5 border rounded-3">
+  <div class="mx-5 p-5 border rounded shadow-sm bg-white">
+    <h3 class="mb-3">Add a treat</h3>
+    <div class="row">
+      <div class="col">
+        <label for="Name">Name</label>
+        <input type="text" class="form-control" name="Name" id="treatName">
+      </div>
+      <div class="col">
+        <label for="Name">Description</label>
+        <input type="text" class="form-control" name="Description" id="treatDescription">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <label for="Name">Country of Origin</label>
+        <input type="text" class="form-control" name="Name" id="treatCountry">
+      </div>
+      <div class="col">
+        <div class="addingFlavorContainerButton">
+          <label for="displayListOfFlavors">Associate this with a flavor?</label>
+          <br>
+          <button class="btn btn-dark bakery-color-darkest" type="button" id="displayListOfFlavors" name="displayListOfFlavors">Yes</button>
+        </div>
+        <div class="addingFlavorContainerTextInput d-none">
+          <br>
+          <input type="text" class="form-control" name="Name" id="treatCountry">
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-dark mt-3 bakery-color-darkest" type="button" id="addNewTreat" name="addNewTreat">Add treat</button>
+  </div>
+  <div class="mx-5 mt-5 p-5 border rounded shadow-sm bg-white">
+    <h3 class="mb-3">List of treats</h3>
+    @for (int x = 0; x < 5; x++)
+    {
+      <div class="card my-3">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-8">
+              <h4>Spiced Choclate Bun</h4>
+            </div>
+            <div class="col-4">
+              <button type="button" class="btn bakery-color-middle badge rounded-pill">Add to cart</button>
+              <button type="button" class="btn bakery-color-middle badge rounded-pill">Edit</button>
+              <button type="button" class="btn bakery-color-middle badge rounded-pill">Delete</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            A choclate bun that has a bit of a kick to it
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -10,7 +10,7 @@ namespace Bakery.Models
       this.JoinEntities = new HashSet<FlavorTreat>();
     }
     public int FlavorId { get; set; }
-    public string FlavorName { get; set; }
+    public string Name { get; set; }
     public int SpiceLevel { get; set; }
 
 
