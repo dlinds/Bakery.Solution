@@ -26,9 +26,20 @@ namespace Library.Controllers
 
     public ActionResult Index()
     {
-      List<Treat> model = _db.Treats.ToList();
+      ViewBag.ListOfTreats = _db.Treats.ToList();
       ViewBag.PageTitle = "Treats";
-      return View(model);
+      return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Treat treat)
+    {
+      // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      // var currentUser = await _userManager.FindByIdAsync(userId);
+      // treat.User = currentUser;
+      _db.Treats.Add(treat);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
 
     [HttpPost]
@@ -36,7 +47,7 @@ namespace Library.Controllers
     {
       _db.Entry(treat).State = EntityState.Modified;
       _db.SaveChanges();
-      string message = treat.Name + " was successfully added";
+      string message = treat.Name + " was successfully modified";
       return Json(new { Message = message });
     }
 
@@ -46,7 +57,7 @@ namespace Library.Controllers
       Treat treat = _db.Treats.FirstOrDefault(t => t.TreatId == treatId);
       _db.Treats.Remove(treat);
       _db.SaveChanges();
-      string message = treat.Name + " was successfully deletes";
+      string message = treat.Name + " was successfully deleted";
       return Json(new { Message = message });
     }
   }

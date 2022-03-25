@@ -15,7 +15,7 @@ function CreateClickHandlersForEditDelete(id) {
         if (response.status == 401) {
           alert("Hello! It looks like you aren't yet logged in. Only authenticated users may add, edit, or delete treats.");
         } else {
-          alert(`We got a ${response.status} error while deleting the treat! Sorry about that, but something has gone wrong.`);
+          alert(`We got a ${response.status} error while editing the treat! Sorry about that, but something has gone wrong.`);
         }
       }
     });
@@ -30,9 +30,35 @@ function CreateClickHandlersForEditDelete(id) {
         $(`#treatCard-${id}`).remove();
         $(`#deleteModal-${id}`).modal('hide');
       },
-      error: function () {
-        alert(`Error while updating ${$("#bookTitleInput").val()}`);
+      error: function (response) {
+        if (response.status == 401) {
+          alert("Hello! It looks like you aren't yet logged in. Only authenticated users may add, edit, or delete treats.");
+        } else {
+          alert(`We got a ${response.status} error while deleting the treat! Sorry about that, but something has gone wrong.`);
+        }
       }
     });
   });
 }
+
+
+// function AddClickHandlerForAddTreat() {
+//   $(`form#addTreat`).submit(function (event) {
+//     event.preventDefault();
+//     $.ajax({
+//       type: "POST",
+//       url: '../../../Treats/Create',
+//       data: { 'name': $(`#addTreatName`).val(), 'description': $(`#addTreatDescription`).val(), 'countryOfOrigin': $(`#addTreatCountry`).val() },
+//       success: function () {
+//         location.reload();
+//       },
+//       error: function (response) {
+//         if (response.status == 401) {
+//           alert("Hello! It looks like you aren't yet logged in. Only authenticated users may add, edit, or delete treats.");
+//         } else {
+//           alert(`We got a ${response.status} error while adding the treat! Sorry about that, but something has gone wrong.`);
+//         }
+//       }
+//     });
+//   });
+// }
