@@ -29,6 +29,7 @@ function CreateClickHandlersForEditDelete(id) {
       success: function () {
         $(`#treatCard-${id}`).remove();
         $(`#deleteModal-${id}`).modal('hide');
+        $(`#editModal-${id}`).modal('hide');
       },
       error: function (response) {
         if (response.status == 401) {
