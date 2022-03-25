@@ -1,3 +1,44 @@
 @{
   Layout = "_Layout";
 }
+<div class="container bg-light bg-gradient p-5 border rounded-3">
+  @* <div class="mx-5 p-5 border rounded shadow-sm"> *@
+  <h3 class="mb-3">@ViewBag.PageTitle</h3>
+  <div class="row g-1 ">
+    <div class="col-6 p-3 border rounded  bg-white">
+      <h2>Treats!</h2>
+      <p>Click a treat to edit or delete</p>
+      <div class="card">
+        <div class="card-header">
+          <h4>Spiced Choclate Bun</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            A choclate bun that has a bit of a kick to it
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-5 p-3 border rounded  bg-white">
+      <h2>Flavors!</h2>
+      <p>Click a flavor to edit or delete</p>
+      <div class="card">
+        <div class="card-header">
+          <h4>Sweet</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-text">
+            Assocaited with:
+            <br>
+            <ul>
+              <li>Spiced Choclate Bun</li>
+              <li>Candied Apples</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    @* </div> *@
+  </div>
