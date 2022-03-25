@@ -34,10 +34,19 @@ namespace Library.Controllers
     [HttpPost]
     public ActionResult Edit(Treat treat)
     {
-      Console.WriteLine(treat);
       _db.Entry(treat).State = EntityState.Modified;
       _db.SaveChanges();
       string message = treat.Name + " was successfully added";
+      return Json(new { Message = message });
+    }
+
+    [HttpPost]
+    public ActionResult Delete(int treatId)
+    {
+      Treat treat = _db.Treats.FirstOrDefault(t => t.TreatId == treatId);
+      _db.Treats.Remove(treat);
+      _db.SaveChanges();
+      string message = treat.Name + " was successfully deletes";
       return Json(new { Message = message });
     }
   }

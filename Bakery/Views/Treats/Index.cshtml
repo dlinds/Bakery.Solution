@@ -39,7 +39,7 @@
     <button class="btn btn-dark mt-3 bakery-color-darkest shadow-sm" type="button" id="addNewTreat" name="addNewTreat">Add treat</button>
   </div>
   <div class="mx-5 mt-5 p-5 border rounded shadow-sm bg-white">
-    <h3 class="mb-3">List of treats</h3>
+    <h3 class="mb-3" id="listOfTreatsHeader">List of treats</h3>
     @foreach (Treat treat in Model)
     {
       <div class="card my-3 shadow-sm" id="treatCard-@treat.TreatId">
@@ -62,10 +62,10 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body mb-3">
-                        <input type="hidden" value="@treat.TreatId" id="TreatId-@treat.TreatId">
-                        <label for="Name">@treat.Name</label>
-                        <input type="text" class="form-control shadow-sm my-2" name="Name" id="TreatName-@treat.TreatId" value="@treat.Name" placeholder="Enter in a new name" required>
-                        <label for="Description">@treat.Description</label>
+                        <input type="hidden" value="@treat.TreatId" id="treatId-@treat.TreatId">
+                        <label for="Name">Name</label>
+                        <input type="text" class="form-control shadow-sm my-2" name="Name" id="treatName-@treat.TreatId" value="@treat.Name" placeholder="Enter in a new name" required>
+                        <label for="Description">Description</label>
                         <input type="text" class="form-control shadow-sm my-2" name="Description" id="treatDescription-@treat.TreatId" value="@treat.Description" placeholder="Enter in a new description" required>
                         <label for="CountryOfOrigin">Country of Origin</label>
                         <input type="text" class="form-control shadow-sm my-2" name="CountryOfOrigin" id="treatCountry-@treat.TreatId" value="@treat.CountryOfOrigin" placeholder="Enter in a country of origin" required>
@@ -97,7 +97,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      Are you sure you want to delete the treat Spicy Chocolate Bun?
+                      Are you sure you want to delete the treat @treat.Name?
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
