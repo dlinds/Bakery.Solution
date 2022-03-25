@@ -1,8 +1,26 @@
 .menu-item {
-  background-color:#fff;
   transition: .5s;
 }
 .menu-item:hover {
-  background-color:#fbfbfb;
+  background-color:#CEE5F2;
   transition: .5s;
+}
+.menu-item a:hover {
+  color: #000 !important;
+  transition: .5s;
+}
+.bakery-color-lightest {
+  background-color: #CEE5F2;
+}
+.bakery-color-light {
+  background-color: #ACCBE1;
+}
+.bakery-color-middle {
+  background-color: #7C98B3;
+}
+.bakery-color-dark {
+  background-color: #637081;
+}
+.bakery-color-darkest {
+  background-color: #536B78;
 }
