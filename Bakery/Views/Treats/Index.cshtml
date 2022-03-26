@@ -4,6 +4,7 @@
 @using System.Security.Claims
 @using Bakery.Models
 @model Bakery.Models.Treat
+@using System.Linq
 
 <script src="~/js/treat/index.js"></script>
 
@@ -51,6 +52,7 @@
           <div class="row">
             <div class="col-8">
               <h4 id="cardTitle-@treat.TreatId">@treat.Name</h4>
+              <p id="cardDescription-@treat.TreatId">@treat.Description</p>
             </div>
             <div class="col-4">
               <button type="button" class="btn bakery-color-middle badge rounded-pill">Add to cart</button>
@@ -76,14 +78,6 @@
                         <label for="CountryOfOrigin">Country of Origin</label>
                         <input type="text" class="form-control shadow-sm my-2" name="CountryOfOrigin" id="treatCountry-@treat.TreatId" value="@treat.CountryOfOrigin" placeholder="Enter in a country of origin" required>
                         <label for="Flavors" class="mt-3">Flavors</label>
-                        <div class="row">
-                          <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="form-check form-switch">
-                              <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                              <label class="form-check-label" for="flexSwitchCheckDefault">Sweet</label>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm bakery-color-light text-dark" data-bs-dismiss="modal">Close</button>
@@ -119,9 +113,52 @@
         </div>
         <div class="card-body">
           <div class="card-text">
-            <h6>From: <span id="cardCountry-@treat.TreatId">@treat.CountryOfOrigin</span></h6>
-            <br>
-            <span id="cardDescription-@treat.TreatId">@treat.Description</span>
+            From: <span id="cardCountry-@treat.TreatId">@treat.CountryOfOrigin</span>
+            <h6 class="pt-3">Associated Flavors</h6>
+            <div class="row">
+              @if (@treat.JoinEntities.Count == 0)
+              {
+                @foreach (Flavor flavor in @ViewBag.ListOfFlavors)
+                {
+                  <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
+                      <script>
+                        AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId)
+                      </script>
+                    </div>
+                  </div>
+                }
+              }
+              @foreach (var join in @treat.JoinEntities)
+              {
+                @foreach (Flavor flavor in @ViewBag.ListOfFlavors)
+                {
+                  <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="form-check form-switch">
+                      @if (@join.FlavorId == flavor.FlavorId)
+                      {
+                        <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId" checked>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
+                        <script>
+                          AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId)
+                        </script>
+                      }
+                      else
+                      {
+                        <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
+                        <script>
+                          AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId)
+                        </script>
+                      }
+                    </div>
+                  </div>
+                }
+              }
+
+            </div>
           </div>
         </div>
       </div>

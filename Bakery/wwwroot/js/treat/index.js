@@ -43,23 +43,40 @@ function CreateClickHandlersForEditDelete(id) {
 }
 
 
-// function AddClickHandlerForAddTreat() {
-//   $(`form#addTreat`).submit(function (event) {
-//     event.preventDefault();
-//     $.ajax({
-//       type: "POST",
-//       url: '../../../Treats/Create',
-//       data: { 'name': $(`#addTreatName`).val(), 'description': $(`#addTreatDescription`).val(), 'countryOfOrigin': $(`#addTreatCountry`).val() },
-//       success: function () {
-//         location.reload();
-//       },
-//       error: function (response) {
-//         if (response.status == 401) {
-//           alert("Hello! It looks like you aren't yet logged in. Only authenticated users may add, edit, or delete treats.");
-//         } else {
-//           alert(`We got a ${response.status} error while adding the treat! Sorry about that, but something has gone wrong.`);
-//         }
-//       }
-//     });
-//   });
-// }
+function AddClickHandlerForFlavorToggles(flavorId, treatId) {
+  $(`#flavor-${flavorId}-treat-${treatId}`).change(function () {
+    if (this.checked) {
+      $.ajax({
+        type: "POST",
+        url: '../../../Treats/AddFlavor',
+        data: { 'treatId': treatId, 'flavorId': flavorId },
+        success: function () {
+          alert("successfully added!")
+        },
+        error: function (response) {
+          if (response.status == 401) {
+            alert("Hello! It looks like you aren't yet logged in. Only authenticated users may add, edit, or delete treats.");
+          } else {
+            alert(`We got a ${response.status} error while deleting the treat! Sorry about that, but something has gone wrong.`);
+          }
+        }
+      });
+    } else {
+      $.ajax({
+        type: "POST",
+        url: '../../../Treats/RemoveFlavor',
+        data: { 'treatId': treatId, 'flavorId': flavorId },
+        success: function () {
+          alert("successfully removed!")
+        },
+        error: function (response) {
+          if (response.status == 401) {
+            alert("Hello! It looks like you aren't yet logged in. Only authenticated users may add, edit, or delete treats.");
+          } else {
+            alert(`We got a ${response.status} error while deleting the treat! Sorry about that, but something has gone wrong.`);
+          }
+        }
+      });
+    }
+  });
+}

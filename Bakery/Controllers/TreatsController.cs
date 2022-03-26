@@ -26,7 +26,9 @@ namespace Library.Controllers
 
     public ActionResult Index()
     {
+      List<Treat> model = _db.Treats.Include(e => e.JoinEntities).ThenInclude(join => join.Flavor).ToList();
       ViewBag.ListOfTreats = _db.Treats.ToList();
+      ViewBag.ListOfFlavors = _db.Flavors.ToList();
       ViewBag.PageTitle = "Treats";
       return View();
     }
@@ -59,6 +61,24 @@ namespace Library.Controllers
       _db.SaveChanges();
       string message = treat.Name + " was successfully deleted";
       return Json(new { Message = message });
+    }
+
+    [HttpPost]
+    public ActionResult AddFlavor(int treatId, int flavorId)
+    {
+      _db.FlavorTreat.Add(new FlavorTreat() { TreatId = treatId, FlavorId = flavorId });
+      _db.SaveChanges();
+      // var joinEntry = _db.FlavorTreat.FirstOrDefault(t => t.TreatId == treatId && t.FlavorId == flavorId);
+      return Json(new { message = "success" });
+    }
+    [HttpPost]
+    public ActionResult RemoveFlavor(int treatId, int flavorId)
+    {
+      var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorId == flavorId && entry.TreatId == treatId);
+      _db.FlavorTreat.Remove(joinEntry);
+      _db.SaveChanges();
+      // var joinEntry = _db.FlavorTreat.FirstOrDefault(t => t.TreatId == treatId && t.FlavorId == flavorId);
+      return Json(new { message = "success" });
     }
   }
 }
