@@ -4,7 +4,7 @@
 @using System.Security.Claims
 @using Bakery.Models
 @model Bakery.Models.Treat
-@using System.Linq
+@using System.Collections.Generic
 
 <script src="~/js/treat/index.js"></script>
 
@@ -29,11 +29,6 @@
           @Html.TextBoxFor(model => model.CountryOfOrigin, new {@class="form-control shadow-sm", required="required"})
         </div>
         <div class="col">
-          <div class="addingFlavorContainerButton">
-            <label for="displayListOfFlavors" class="mt-3">Associate this with a flavor?</label>
-            <br>
-            <button class="btn btn-dark bakery-color-darkest shadow-sm" type="button" id="displayListOfFlavors" name="displayListOfFlavors">Yes</button>
-          </div>
           <div class="addingFlavorContainerTextInput d-none">
             <br>
             <input type="text" class="form-control shadow-sm" name="Name" id="treatCountry">
@@ -50,18 +45,15 @@
       <div class="card my-3 shadow-sm" id="treatCard-@treat.TreatId">
         <div class="card-header">
           <div class="row">
-            <div class="col-8">
+            <div class="col-lg-8 col-md-6 col-sm-12">
               <h4 id="cardTitle-@treat.TreatId">@treat.Name</h4>
               <p id="cardDescription-@treat.TreatId">@treat.Description</p>
             </div>
-            <div class="col-4">
-              <button type="button" class="btn bakery-color-middle badge rounded-pill">Add to cart</button>
-
+            <div class="col-lg-4 col-md-6 col-sm-12 text-end">
               <button type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#editModal-@treat.TreatId">Edit</button>
-
               <div class="modal fade" id="editModal-@treat.TreatId" tabindex="-1" aria-labelledby="editModalLabel-@treat.TreatId" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
+                  <div class="modal-content text-start">
                     <form id="editForm-@treat.TreatId">
                       <div class="modal-header bakery-color-lightest p-5 ">
                         <h1 class="display-5">EDIT</h1>
@@ -77,7 +69,6 @@
                         <input type="text" class="form-control shadow-sm my-2" name="Description" id="treatDescription-@treat.TreatId" value="@treat.Description" placeholder="Enter in a new description" required>
                         <label for="CountryOfOrigin">Country of Origin</label>
                         <input type="text" class="form-control shadow-sm my-2" name="CountryOfOrigin" id="treatCountry-@treat.TreatId" value="@treat.CountryOfOrigin" placeholder="Enter in a country of origin" required>
-                        <label for="Flavors" class="mt-3">Flavors</label>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm bakery-color-light text-dark" data-bs-dismiss="modal">Close</button>
@@ -125,24 +116,24 @@
                       <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId">
                       <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
                       <script>
-                        AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId)
+                        AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
                       </script>
                     </div>
                   </div>
                 }
               }
-              @foreach (var join in @treat.JoinEntities)
+              else
               {
                 @foreach (Flavor flavor in @ViewBag.ListOfFlavors)
                 {
                   <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="form-check form-switch">
-                      @if (@join.FlavorId == flavor.FlavorId)
+                      @if (treat.JoinEntities.Any(x => x.FlavorId == flavor.FlavorId))
                       {
                         <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId" checked>
                         <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
                         <script>
-                          AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId)
+                          AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
                         </script>
                       }
                       else
@@ -150,14 +141,13 @@
                         <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId">
                         <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
                         <script>
-                          AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId)
+                          AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
                         </script>
                       }
                     </div>
                   </div>
                 }
               }
-
             </div>
           </div>
         </div>
@@ -167,4 +157,18 @@
       </script>
     }
   </div>
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="successfulToastAlert" class="toast hide text-dark" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2500">
+      <div class="toast-header bakery-color-lightest text-dark py-2">
+        <strong class="me-auto"><i class="bi-gift-fill"></i>
+          <h6 class="display-6" id="toastMessage"></h6>
+        </strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body bg-white py-4" id="toastBody">
+
+      </div>
+    </div>
+  </div>
+
 </div>

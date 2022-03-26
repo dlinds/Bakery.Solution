@@ -43,7 +43,7 @@ function CreateClickHandlersForEditDelete(id) {
 }
 
 
-function AddClickHandlerForFlavorToggles(flavorId, treatId) {
+function AddClickHandlerForFlavorToggles(flavorId, treatId, flavorName, treatName) {
   $(`#flavor-${flavorId}-treat-${treatId}`).change(function () {
     if (this.checked) {
       $.ajax({
@@ -51,7 +51,9 @@ function AddClickHandlerForFlavorToggles(flavorId, treatId) {
         url: '../../../Treats/AddFlavor',
         data: { 'treatId': treatId, 'flavorId': flavorId },
         success: function () {
-          alert("successfully added!")
+          $("#toastMessage").text("Added!");
+          $("#toastBody").text(`${flavorName} was successfully added to ${treatName}`);
+          $("#successfulToastAlert").toast("show");
         },
         error: function (response) {
           if (response.status == 401) {
@@ -67,7 +69,9 @@ function AddClickHandlerForFlavorToggles(flavorId, treatId) {
         url: '../../../Treats/RemoveFlavor',
         data: { 'treatId': treatId, 'flavorId': flavorId },
         success: function () {
-          alert("successfully removed!")
+          $("#toastMessage").text("Removed!");
+          $("#toastBody").text(`${flavorName} was successfully removed from ${treatName}`);
+          $("#successfulToastAlert").toast("show");
         },
         error: function (response) {
           if (response.status == 401) {
