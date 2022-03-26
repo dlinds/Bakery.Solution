@@ -27,9 +27,8 @@ function CreateClickHandlersForEditDelete(id) {
       url: '../../../Treats/Delete',
       data: { 'treatId': $(`#treatId-${id}`).val() },
       success: function () {
-        $(`#treatCard-${id}`).remove();
         $(`#deleteModal-${id}`).modal('hide');
-        $(`#editModal-${id}`).modal('hide');
+        $(`#treatCard-${id}`).remove();
       },
       error: function (response) {
         if (response.status == 401) {

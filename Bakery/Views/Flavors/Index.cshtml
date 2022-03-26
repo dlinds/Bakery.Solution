@@ -41,16 +41,16 @@
               <div class="col-9">
                 <h4 id="cardTitle-@flavor.FlavorId">@flavor.Name</h4>
               </div>
-              <div class="col-3">
+              <div class="col-3 text-end">
                 <button type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#editModal-@flavor.FlavorId">Edit</button>
-                <div class="modal fade" id="editModal-@flavor.FlavorId" tabindex="-1" aria-labelledby="editModalLabel-@flavor.FlavorId" aria-hidden="true">
+                <div class="modal fade text-start" id="editModal-@flavor.FlavorId" tabindex="-1" aria-labelledby="editModalLabel-@flavor.FlavorId" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                       <form id="editForm-@flavor.FlavorId">
                         <div class="modal-header bakery-color-lightest p-5">
                           <h1 class="display-5">EDIT</h1>
                           <h3 class="display-5 mx-3">|</h3>
-                          <h3 class="modal-title" id="editModalLabel-@flavor.FlavorId">@flavor.Name</h3>
+                          <h3 class="modal-title" id="editModalLabel-@flavor.FlavorId"><span id="#editModalFlavorNameHeader-@flavor.FlavorId">@flavor.Name</span></h3>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body mb-3 p-5">
@@ -61,7 +61,7 @@
                           <input type="number" min=1 max=10 class="form-control shadow-sm my-2" name="SpiceLevel" id="flavorSpiceLevel-@flavor.FlavorId" value="@flavor.SpiceLevel" placeholder="Between 1 and 10" required>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary btn-sm bakery-color-light text-white" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-secondary btn-sm bakery-color-light text-dark" data-bs-dismiss="modal">Cancel</button>
                           <button type="submit" class="btn btn-primary btn-sm bakery-color-darkest">Save changes</button>
                         </div>
                       </form>
@@ -70,17 +70,17 @@
                 </div>
 
                 <button type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal-@flavor.FlavorId">Delete</button>
-                <div class="modal fade" id="deleteModal-@flavor.FlavorId" tabindex="-1" aria-labelledby="deleteModalLabel-@flavor.FlavorId" aria-hidden="true">
+                <div class="modal fade text-start" id="deleteModal-@flavor.FlavorId" tabindex="-1" aria-labelledby="deleteModalLabel-@flavor.FlavorId" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                       <div class="modal-header bakery-color-lightest p-5">
                         <h1 class="display-5">Delete</h1>
                         <h3 class="display-5 mx-3">|</h3>
-                        <h3 class="modal-title">@flavor.Name</h3>
+                        <h3 class="modal-title" id="deleteModalFlavorNameHeader-@flavor.FlavorId">@flavor.Name</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body p-5">
-                        Are you sure you want to delete the flavor @flavor.Name?
+                        Are you sure you want to delete the flavor <span id="deleteModalFlavorNameBody-@flavor.FlavorId">@flavor.Name?</span>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
@@ -94,15 +94,71 @@
           </div>
           <div class="card-body">
             <div class="card-text">
-              <h6>Spice Level: <span id="cardSpiceLevel-@flavor.FlavorId">@flavor.SpiceLevel</span></h6>
-              <br>
+              Spice Level: <span id="spiceLevel-@flavor.FlavorId">@flavor.SpiceLevel</span>
+              <h6 class="pt-3">Associated Treats</h6>
+              <div class="row">
+                @if (@flavor.JoinEntities.Count == 0)
+                {
+                  @foreach (Treat treat in @ViewBag.ListOfTreats)
+                  {
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">@treat.Name</label>
+                        <script>
+                          AddClickHandlerForTreatToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
+                        </script>
+                      </div>
+                    </div>
+                  }
+                }
+                else
+                {
+                  @foreach (Treat treat in @ViewBag.ListOfTreats)
+                  {
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                      <div class="form-check form-switch">
+                        @if (flavor.JoinEntities.Any(x => x.TreatId == treat.TreatId))
+                        {
+                          <input class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId" checked>
+                          <label class="form-check-label" for="flexSwitchCheckDefault">@treat.Name</label>
+                          <script>
+                            AddClickHandlerForTreatToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
+                          </script>
+                        }
+                        else
+                        {
+                          <input class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId">
+                          <label class="form-check-label" for="flexSwitchCheckDefault">@treat.Name</label>
+                          <script>
+                            AddClickHandlerForTreatToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
+                          </script>
+                        }
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
             </div>
           </div>
         </div>
         <script>
-          CreateClickHandlersForEditDelete(@flavor.FlavorId);
+          CreateClickHandlersForEditDelete(@flavor.FlavorId, "@flavor.Name");
         </script>
       }
     }
+  </div>
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="successfulToastAlert" class="toast hide text-dark" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2500">
+      <div class="toast-header bakery-color-lightest text-dark py-2">
+        <strong class="me-auto"><i class="bi-gift-fill"></i>
+          <h6 class="display-6" id="toastMessage"></h6>
+        </strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body bg-white py-4" id="toastBody">
+
+      </div>
+    </div>
   </div>
 </div>

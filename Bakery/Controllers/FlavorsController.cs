@@ -26,6 +26,8 @@ namespace Library.Controllers
 
     public ActionResult Index()
     {
+      List<Flavor> model = _db.Flavors.Include(f => f.JoinEntities).ThenInclude(join => join.Treat).ToList();
+      ViewBag.ListOfTreats = _db.Treats.ToList();
       ViewBag.ListOfFlavors = _db.Flavors.ToList();
       ViewBag.PageTitle = "Flavors";
       return View();
