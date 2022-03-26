@@ -15,11 +15,11 @@
       <div class="row">
         <div class="col">
           <label for="Name">Name</label>
-          @Html.TextBoxFor(model => model.Name, new {@class="form-control shadow-sm"})
+          @Html.TextBoxFor(model => model.Name, new {@class="form-control shadow-sm", required="required"})
         </div>
         <div class="col">
           <label for="Name">Spice Level</label>
-          @Html.TextBoxFor(model => model.SpiceLevel, new {@class="form-control shadow-sm", type="number", min=0, max=10, placeholder="Between 1 and 10"})
+          @Html.TextBoxFor(model => model.SpiceLevel, new {@class="form-control shadow-sm", type="number", min=1, max=10, placeholder="Between 1 and 10", required="required"})
         </div>
       </div>
       <button class="btn btn-dark mt-3 bakery-color-darkest shadow-sm" type="submit" id="addNewFlavor" name="addNewFlavor">Add flavor</button>
@@ -58,7 +58,7 @@
                           <label for="Name">Name</label>
                           <input type="text" class="form-control shadow-sm my-2" name="Name" id="flavorName-@flavor.FlavorId" value="@flavor.Name" placeholder="Enter in a new name" required>
                           <label for="Description">Spice Level</label>
-                          <input type="text" class="form-control shadow-sm my-2" name="Description" id="flavorSpiceLevel-@flavor.FlavorId" value="@flavor.SpiceLevel" placeholder="Enter in a new description" required>
+                          <input type="number" min=1 max=10 class="form-control shadow-sm my-2" name="SpiceLevel" id="flavorSpiceLevel-@flavor.FlavorId" value="@flavor.SpiceLevel" placeholder="Between 1 and 10" required>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary btn-sm bakery-color-light text-white" data-bs-dismiss="modal">Close</button>
