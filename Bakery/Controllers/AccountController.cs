@@ -30,6 +30,7 @@ namespace Bakery.Controllers
           ViewBag.Message = "There was an issue when signing in with either your email or password. Please try again.";
         }
         ViewBag.AuthPageTitle = "Login";
+        ViewBag.PageTitle = "Login";
       }
       else
       {
@@ -41,8 +42,9 @@ namespace Bakery.Controllers
         ViewBag.Phone = phoneNumber;
         ViewBag.FullName = fullName;
         ViewBag.AuthPageTitle = "Account Details";
+        ViewBag.PageTitle = "Account Details";
       }
-      ViewBag.PageTitle = "Account";
+
       return View();
     }
 

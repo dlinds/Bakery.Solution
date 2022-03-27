@@ -5,28 +5,59 @@
 @using Bakery.Models
 @model Bakery.Models.Treat
 @using System.Collections.Generic
-
+@{
+  string isDisabled = "";
+  if (ViewBag.AuthPageTitle == "Login")
+  {
+    isDisabled = "disabled";
+  }
+}
 <script src="~/js/treat/index.js"></script>
 
 <div class="container bg-light bg-gradient p-5 border rounded-3">
   <div class="mx-5 p-5 border rounded shadow-sm bg-white">
     <h3 class="mb-3">Add a treat</h3>
+    @if (isDisabled == "disabled")
+    {
+      <p class="pb-3">You must <a class="link-dark" href="/Account">login</a> to an account before adding, editing, or deleting treats. If you don't yet have an account, please <a class="link-dark" href="/Account/Register">register here</a>. You may view any treats that have already been added below.</p>
+    }
     @using (Html.BeginForm("Create", "Treats"))
     {
       <div class="row">
         <div class="col">
           <label for="Name">Name</label>
-          @Html.TextBoxFor(model => model.Name, new {@class="form-control shadow-sm", required="required"})
+          @if (@isDisabled == "disabled")
+          {
+            @Html.TextBoxFor(model => model.Name, new {@class="form-control shadow-sm", required="required", disabled="disabled"})
+          }
+          else
+          {
+            @Html.TextBoxFor(model => model.Name, new {@class="form-control shadow-sm", required="required"})
+          }
         </div>
         <div class="col">
           <label for="Name">Description</label>
-          @Html.TextBoxFor(model => model.Description, new {@class="form-control shadow-sm", required="required"})
+          @if (@isDisabled == "disabled")
+          {
+            @Html.TextBoxFor(model => model.Description, new {@class="form-control shadow-sm", required="required", disabled="disabled"})
+          }
+          else
+          {
+            @Html.TextBoxFor(model => model.Description, new {@class="form-control shadow-sm", required="required"})
+          }
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label for="Name" class="mt-3">Country of Origin</label>
-          @Html.TextBoxFor(model => model.CountryOfOrigin, new {@class="form-control shadow-sm", required="required"})
+          @if (@isDisabled == "disabled")
+          {
+            @Html.TextBoxFor(model => model.CountryOfOrigin, new {@class="form-control shadow-sm", required="required", disabled="disabled"})
+          }
+          else
+          {
+            @Html.TextBoxFor(model => model.CountryOfOrigin, new {@class="form-control shadow-sm", required="required"})
+          }
         </div>
         <div class="col">
           <div class="addingFlavorContainerTextInput d-none">
@@ -35,7 +66,7 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-dark mt-3 bakery-color-darkest shadow-sm" type="submit" id="addNewTreat" name="addNewTreat">Add treat</button>
+      <button @isDisabled class="btn btn-dark mt-3 bakery-color-darkest shadow-sm" type="submit" id="addNewTreat" name="addNewTreat">Add treat</button>
     }
   </div>
   <div class="mx-5 mt-5 p-5 border rounded shadow-sm bg-white">
@@ -50,7 +81,7 @@
               <p id="cardDescription-@treat.TreatId">@treat.Description</p>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12 text-end">
-              <button type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#editModal-@treat.TreatId">Edit</button>
+              <button @isDisabled type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#editModal-@treat.TreatId">Edit</button>
               <div class="modal fade" id="editModal-@treat.TreatId" tabindex="-1" aria-labelledby="editModalLabel-@treat.TreatId" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content text-start">
@@ -79,7 +110,7 @@
                 </div>
               </div>
 
-              <button type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal-@treat.TreatId">Delete</button>
+              <button @isDisabled type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal-@treat.TreatId">Delete</button>
               <div class="modal fade" id="deleteModal-@treat.TreatId" tabindex="-1" aria-labelledby="deleteModalLabel-@treat.TreatId" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content text-start">
@@ -113,7 +144,7 @@
                 {
                   <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId">
+                      <input @isDisabled class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId">
                       <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
                       <script>
                         AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
@@ -130,7 +161,7 @@
                     <div class="form-check form-switch">
                       @if (treat.JoinEntities.Any(x => x.FlavorId == flavor.FlavorId))
                       {
-                        <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId" checked>
+                        <input @isDisabled class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId" checked>
                         <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
                         <script>
                           AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
@@ -138,7 +169,7 @@
                       }
                       else
                       {
-                        <input class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId">
+                        <input @isDisabled class="form-check-input" type="checkbox" id="flavor-@flavor.FlavorId-treat-@treat.TreatId">
                         <label class="form-check-label" for="flexSwitchCheckDefault">@flavor.Name</label>
                         <script>
                           AddClickHandlerForFlavorToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")

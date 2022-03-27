@@ -6,23 +6,47 @@
 @model Bakery.Models.Flavor
 
 <script src="~/js/flavor/index.js"></script>
-
+@{
+  string isDisabled = "";
+  if (ViewBag.AuthPageTitle == "Login")
+  {
+    isDisabled = "disabled";
+  }
+}
 <div class="container bg-light bg-gradient p-5 border rounded-3">
   <div class="mx-5 p-5 border rounded shadow-sm bg-white">
     <h3 class="mb-3">Add a flavor</h3>
+    @if (isDisabled == "disabled")
+    {
+      <p class="pb-3">You must <a class="link-dark" href="/Account">login</a> to an account before adding, editing, or deleting flavors. If you don't yet have an account, please <a class="link-dark" href="/Account/Register">register here</a>. You may view any flavors that have already been added below.</p>
+    }
     @using (Html.BeginForm("Create", "Flavors"))
     {
       <div class="row">
         <div class="col">
           <label for="Name">Name</label>
-          @Html.TextBoxFor(model => model.Name, new {@class="form-control shadow-sm", required="required"})
+          @if (@isDisabled == "disabled")
+          {
+            @Html.TextBoxFor(model => model.Name, new {@class="form-control shadow-sm", required="required", disabled="disabled"})
+          }
+          else
+          {
+            @Html.TextBoxFor(model => model.Name, new {@class="form-control shadow-sm", required="required"})
+          }
         </div>
         <div class="col">
           <label for="Name">Spice Level</label>
-          @Html.TextBoxFor(model => model.SpiceLevel, new {@class="form-control shadow-sm", type="number", min=1, max=10, placeholder="Between 1 and 10", required="required"})
+          @if (@isDisabled == "disabled")
+          {
+            @Html.TextBoxFor(model => model.SpiceLevel, new {@class="form-control shadow-sm", type="number", min=1, max=10, placeholder="Between 1 and 10", required="required", disabled="disabled"})
+          }
+          else
+          {
+            @Html.TextBoxFor(model => model.SpiceLevel, new {@class="form-control shadow-sm", type="number", min=1, max=10, placeholder="Between 1 and 10", required="required"})
+          }
         </div>
       </div>
-      <button class="btn btn-dark mt-3 bakery-color-darkest shadow-sm" type="submit" id="addNewFlavor" name="addNewFlavor">Add flavor</button>
+      <button @isDisabled class="btn btn-dark mt-3 bakery-color-darkest shadow-sm" type="submit" id="addNewFlavor" name="addNewFlavor">Add flavor</button>
     }
   </div>
   <div class="mx-5 mt-5 p-5 border rounded shadow-sm bg-white">
@@ -42,7 +66,7 @@
                 <h4 id="cardTitle-@flavor.FlavorId">@flavor.Name</h4>
               </div>
               <div class="col-3 text-end">
-                <button type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#editModal-@flavor.FlavorId">Edit</button>
+                <button @isDisabled type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#editModal-@flavor.FlavorId">Edit</button>
                 <div class="modal fade text-start" id="editModal-@flavor.FlavorId" tabindex="-1" aria-labelledby="editModalLabel-@flavor.FlavorId" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -69,7 +93,7 @@
                   </div>
                 </div>
 
-                <button type="button" class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal-@flavor.FlavorId">Delete</button>
+                <button type="button" @isDisabled class="btn bakery-color-middle badge rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal-@flavor.FlavorId">Delete</button>
                 <div class="modal fade text-start" id="deleteModal-@flavor.FlavorId" tabindex="-1" aria-labelledby="deleteModalLabel-@flavor.FlavorId" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -103,7 +127,7 @@
                   {
                     <div class="col-lg-4 col-md-6 col-sm-12">
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId">
+                        <input @isDisabled class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId">
                         <label class="form-check-label" for="flexSwitchCheckDefault">@treat.Name</label>
                         <script>
                           AddClickHandlerForTreatToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
@@ -120,7 +144,7 @@
                       <div class="form-check form-switch">
                         @if (flavor.JoinEntities.Any(x => x.TreatId == treat.TreatId))
                         {
-                          <input class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId" checked>
+                          <input @isDisabled class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId" checked>
                           <label class="form-check-label" for="flexSwitchCheckDefault">@treat.Name</label>
                           <script>
                             AddClickHandlerForTreatToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
@@ -128,7 +152,7 @@
                         }
                         else
                         {
-                          <input class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId">
+                          <input @isDisabled class="form-check-input" type="checkbox" id="treat-@treat.TreatId-flavor-@flavor.FlavorId">
                           <label class="form-check-label" for="flexSwitchCheckDefault">@treat.Name</label>
                           <script>
                             AddClickHandlerForTreatToggles(@flavor.FlavorId, @treat.TreatId, "@flavor.Name", "@treat.Name")
