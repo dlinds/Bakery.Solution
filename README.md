@@ -21,6 +21,7 @@
 
 This is a C# web application for a bakery that allows the addition of Treats and Flavors. Flavors may be associated with multiple treats, and treats may have multiple flavors. Only logged in users may add, edit, or delete flavors/treats, but any user viewing the application can view all treats/flavors that have been added.
 
+To view a live version of this project, please navigate to http://bakery.dlinds.com:6001. If the site is offline, it is likely due to Dynamic DNS not having my current IP address at home. A script should update the DDNS entry every four hours, so please try again in a short while (or clone/run the project on your own). If it is still not up after four hours, please shoot me a message on Github and I will correct the issue!
 <br>
 
 # Setup/Installation Requirements
