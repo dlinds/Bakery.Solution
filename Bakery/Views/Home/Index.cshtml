@@ -1,43 +1,80 @@
 @{
   Layout = "_Layout";
 }
+@using Bakery.Models
+
 <div class="container bg-light bg-gradient p-5 border rounded-3">
-  @* <div class="mx-5 p-5 border rounded shadow-sm"> *@
   <h3 class="mb-3">@ViewBag.PageTitle</h3>
   <div class="row g-1 ">
     <div class="col-6 p-3 border rounded  bg-white">
       <h2>Treats!</h2>
-      <p>Click a treat to edit or delete</p>
-      <div class="card">
-        <div class="card-header">
-          <h4>Spiced Choclate Bun</h4>
-        </div>
-        <div class="card-body">
-          <div class="card-text">
-            A choclate bun that has a bit of a kick to it
+      <p>Click a treat to view more details</p>
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+        @foreach (Treat treat in ViewBag.ListOfTreats)
+        {
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading-@treat.TreatId">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@treat.TreatId" aria-expanded="false" aria-controls="flush-collapse-@treat.TreatId">
+                <h4>@treat.Name</h4>
+              </button>
+            </h2>
+            <div id="flush-collapse-@treat.TreatId" class="accordion-collapse collapse" aria-labelledby="flush-heading-@treat.TreatId" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <p><strong>Description</strong>: @treat.Description</p>
+                <p><strong>From</strong>: @treat.CountryOfOrigin</p>
+                @if (treat.JoinEntities.Count > 0)
+                {
+                  <p><strong>Associated Flavors</strong>:<br>
+                    @{
+                      string flavorsCombined = "";
+                    }
+                    @foreach (var join in treat.JoinEntities)
+                    {
+                      flavorsCombined += join.Flavor.Name + ", ";
+                    }
+                    @flavorsCombined.Remove(flavorsCombined.Length - 2, 1)
+                  </p>
+                }
+              </div>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
     <div class="col-1">
     </div>
     <div class="col-5 p-3 border rounded  bg-white">
       <h2>Flavors!</h2>
-      <p>Click a flavor to edit or delete</p>
-      <div class="card">
-        <div class="card-header">
-          <h4>Sweet</h4>
-        </div>
-        <div class="card-body">
-          <div class="card-text">
-            Assocaited with:
-            <br>
-            <ul>
-              <li>Spiced Choclate Bun</li>
-              <li>Candied Apples</li>
-            </ul>
+      <p>Click a flavor to view its details</p>
+      <div class="accordion accordion-flush" id="flavor-accordionFlushExample">
+        @foreach (Flavor flavor in ViewBag.ListOfFlavors)
+        {
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flavor-flush-heading-@flavor.FlavorId">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flavor-flush-collapse-@flavor.FlavorId" aria-expanded="false" aria-controls="flavor-flush-collapse-@flavor.FlavorId">
+                <h4>@flavor.Name</h4>
+              </button>
+            </h2>
+            <div id="flavor-flush-collapse-@flavor.FlavorId" class="accordion-collapse collapse" aria-labelledby="flavor-flush-heading-@flavor.FlavorId" data-bs-parent="#flavor-accordionFlushExample">
+              <div class="accordion-body">
+                <p><strong>Spice Level</strong>: @flavor.SpiceLevel</p>
+                @if (flavor.JoinEntities.Count > 0)
+                {
+                  <p><strong>Associated treats</strong>:<br>
+                    @{
+                      string treatsCombined = "";
+                    }
+                    @foreach (var join in flavor.JoinEntities)
+                    {
+                      treatsCombined += join.Treat.Name + ", ";
+                    }
+                    @treatsCombined.Remove(treatsCombined.Length - 2, 1)
+                  </p>
+                }
+              </div>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
     @* </div> *@

@@ -26,6 +26,8 @@ namespace Bakery.Controllers
       {
         ViewBag.AuthPageTitle = "Account Details";
       }
+      ViewBag.ListOfTreats = _db.Treats.Include(e => e.JoinEntities).ThenInclude(join => join.Flavor).ToList();
+      ViewBag.ListOfFlavors = _db.Flavors.Include(e => e.JoinEntities).ThenInclude(join => join.Treat).ToList();
       ViewBag.PageTitle = "Bakery";
       return View();
     }
