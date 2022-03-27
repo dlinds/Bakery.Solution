@@ -51,7 +51,6 @@ namespace Bakery.Controllers
     [HttpPost]
     public async Task<IActionResult> AddPhoneNumber(string phoneNumber)
     {
-      // @String.Format("{0:(###) ###-####}", Int64.Parse(phoneNumber));
       var user = await _userManager.GetUserAsync(User);
       user.PhoneNumber = String.Format("{0:(###) ###-####}", Int64.Parse(Regex.Replace(phoneNumber, "[^0-9]", "")));
       IdentityResult result = await _userManager.UpdateAsync(user);

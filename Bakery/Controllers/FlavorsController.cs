@@ -45,9 +45,6 @@ namespace Library.Controllers
     [HttpPost]
     public ActionResult Create(Flavor flavor)
     {
-      // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      // var currentUser = await _userManager.FindByIdAsync(userId);
-      // treat.User = currentUser;
       _db.Flavors.Add(flavor);
       _db.SaveChanges();
       return RedirectToAction("Index");

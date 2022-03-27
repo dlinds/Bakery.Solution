@@ -13,7 +13,6 @@ namespace Bakery.Models
     public string Name { get; set; }
     public int SpiceLevel { get; set; }
 
-
     public virtual ICollection<FlavorTreat> JoinEntities { get; }
     public virtual ApplicationUser User { get; set; }
   }
