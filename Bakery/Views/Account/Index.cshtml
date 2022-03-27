@@ -5,12 +5,22 @@
 @using System.Security.Claims
 
 @using Bakery.ViewModels
-
+@using Microsoft.AspNetCore.Identity
 @model LoginViewModel
-
+@using System
+@using System.Collections.Generic
 
 <div class="container bg-light bg-gradient p-5 border rounded-3">
   <div class="mx-5 p-5 border rounded shadow-sm bg-white">
+    @if (@ViewBag.Message != null)
+    {
+      <p class="mb-5" id="loginMessage">@ViewBag.Message</p>
+      <script>
+        setTimeout(function () {
+          $('#loginMessage').slideUp(3000);
+        }, 3000);
+      </script>
+    }
     <h3 class="mb-3">@ViewBag.PageTitle</h3>
     @if (@ViewBag.AuthPageTitle == "Login")
     {
@@ -19,14 +29,13 @@
           @using (Html.BeginForm("Login", "Account"))
           {
             @Html.LabelFor(m => m.Email)
-            @Html.TextBoxFor(m => m.Email, new {@class="form-control mb-3 shadow-sm"})
+            @Html.TextBoxFor(m => m.Email, new {@class="form-control mb-3 shadow-sm", type="email", required="required"})
 
             @Html.LabelFor(m => m.Password)
-            @Html.PasswordFor(m => m.Password, new {@class="form-control mb-3 shadow-sm"})
+            @Html.PasswordFor(m => m.Password, new {@class="form-control mb-3 shadow-sm", required="required"})
 
             <input type="submit" value="Sign in" class="btn btn-dark mb-3 shadow-sm" />
           }
-          @* <p class="text-secondary">Don't have an account yet? Register <a href="account/register" class="link-secondary">here</a></p> *@
         </div>
         <div class="col-5">
           <p>Hey there! It looks like you aren't signed in yet. If you already have an account here at Pierre's Bakery, type your email and password, and hit Sign in.</p>
@@ -41,39 +50,44 @@
           <p>
             <strong>Name</strong>
             <br>
-            Temp
+            @ViewBag.FullName
           </p>
           <p>
             <strong>Email</strong>
             <br>
             @User.Identity.Name
           </p>
+          @if (ViewBag.Phone == null)
+          {
+            @using (Html.BeginForm("AddPhoneNumber", "Account", FormMethod.Post))
+            {
+              <div class="row">
+                <div class="col-8">
+                  <p>
+                    <strong>Phone</strong>
+                    <br>
 
-          <div class="row">
-            <div class="col-8">
-              <p>
-                <strong>Phone</strong>
-                <br>
-                <input type="tel" placeholder="(Optional) provide phone number" class="form-control">
-              </p>
-            </div>
-            <div class="col-4">
+                    <input type="tel" placeholder="(Optional) provide phone number" name="phoneNumber" class="form-control">
+
+                  </p>
+                </div>
+                <div class="col-4">
+                  <br>
+                  <button type="submit" class="btn btn-secondary">Add</button>
+                </div>
+              </div>
+            }
+          }
+          else
+          {
+            <p>
+              <strong>Phone</strong>
               <br>
-              <button class="btn btn-secondary">Add</button>
-            </div>
-          </div>
+              @ViewBag.Phone
+            </p>
+          }
         </div>
         <div class="col-4 text-end">
-          <p>
-            <strong>Treat Count</strong>
-            <br>
-            You've registered 4 treats
-          </p>
-          <p>
-            <strong>Flavor Count</strong>
-            <br>
-            You've registered 7 flavors
-          </p>
         </div>
       </div>
     }

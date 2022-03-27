@@ -6,7 +6,7 @@ namespace Bakery.ViewModels
   {
     [Required]
     [Display(Name = "Name")]
-    public string Name { get; set; }
+    public string FullName { get; set; }
 
     [Required]
     [EmailAddress]

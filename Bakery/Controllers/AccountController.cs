@@ -4,6 +4,7 @@ using Bakery.Models;
 using System.Threading.Tasks;
 using Bakery.ViewModels;
 using System;
+using System.Security.Principal;
 
 namespace Bakery.Controllers
 {
@@ -20,19 +21,42 @@ namespace Bakery.Controllers
       _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<IActionResult> Index(string m = "")
     {
       if (!User.Identity.IsAuthenticated)
       {
+        if (m == "LoginFail")
+        {
+          ViewBag.Message = "There was an issue when signing in with either your email or password. Please try again.";
+        }
         ViewBag.AuthPageTitle = "Login";
       }
       else
       {
+        var user = await _userManager.GetUserAsync(User);
+        var fullName = _userManager.GetUserAsync(User).Result?.FullName;
+        var email = _userManager.GetEmailAsync(user);
+        var userName = _userManager.GetUserNameAsync(user);
+        var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+        ViewBag.Phone = phoneNumber;
+        ViewBag.FullName = fullName;
         ViewBag.AuthPageTitle = "Account Details";
       }
       ViewBag.PageTitle = "Account";
       return View();
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddPhoneNumber(string phoneNumber)
+    {
+      // @String.Format("{0:(###) ###-####}", Int64.Parse(phoneNumber));
+      var user = await _userManager.GetUserAsync(User);
+      user.PhoneNumber = String.Format("{0:(###) ###-####}", Int64.Parse(phoneNumber));
+      Console.WriteLine("here: " + phoneNumber);
+      IdentityResult result = await _userManager.UpdateAsync(user);
+      return RedirectToAction("Index");
+    }
+
 
     public ActionResult Register()
     {
@@ -51,7 +75,7 @@ namespace Bakery.Controllers
     [HttpPost]
     public async Task<ActionResult> Register(RegisterViewModel model)
     {
-      var user = new ApplicationUser { UserName = model.Email, Name = model.Name, Email = model.Email };
+      var user = new ApplicationUser { UserName = model.Email, FullName = model.FullName, Email = model.Email };
       IdentityResult result = await _userManager.CreateAsync(user, model.Password);
       if (result.Succeeded)
       {
@@ -74,13 +98,11 @@ namespace Bakery.Controllers
       Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
       if (result.Succeeded)
       {
-        Console.WriteLine("did work");
         return RedirectToAction("Index");
       }
       else
       {
-        Console.WriteLine("did not work");
-        return View();
+        return RedirectToAction("Index", new { m = "LoginFail" });
       }
     }
 
