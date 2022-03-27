@@ -27,9 +27,21 @@
       <li class="nav-item dropdown border-end menu-item bakery-color-darkest">
         <a class="nav-link dropdown-toggle link-secondary text-white py-4 px-5" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Account</a>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="/Account">Account Info</a></li>
-          <li><a class="dropdown-item" href="#">Logout</a></li>
+          <li><a class="dropdown-item" href="/Account">@ViewBag.AuthPageTitle</a></li>
+          @if (@ViewBag.AuthPageTitle == "Account Details")
+          {
+            <li>@using (Html.BeginForm("LogOff", "Account"))
+              {
+                <input type="submit" class="btn btn-default" value="Log out" />
+              }
+            </li>
+          }
+          else
+          {
+            <li><a class="dropdown-item" href="/Account/Register">Register</a></li>
+          }
         </ul>
+
       </li>
     </ul>
     <div class="container-fluid px-0 pt-3 pb-5 ">

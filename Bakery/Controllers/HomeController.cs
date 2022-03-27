@@ -18,6 +18,14 @@ namespace Bakery.Controllers
     [HttpGet("/")]
     public ActionResult Index()
     {
+      if (!User.Identity.IsAuthenticated)
+      {
+        ViewBag.AuthPageTitle = "Login";
+      }
+      else
+      {
+        ViewBag.AuthPageTitle = "Account Details";
+      }
       ViewBag.PageTitle = "Bakery";
       return View();
     }

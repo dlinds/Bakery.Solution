@@ -9,6 +9,9 @@ function CreateClickHandlersForEditDelete(id) {
         $(`#cardDescription-${id}`).text($(`#treatDescription-${id}`).val());
         $(`#cardTitle-${id}`).text($(`#treatName-${id}`).val());
         $(`#cardCountry-${id}`).text($(`#treatCountry-${id}`).val());
+        $("#toastBody").text(`Your edit of ${$(`#treatName-${id}`).val()} was successful`);
+        $("#toastMessage").text("Edited!");
+        $("#successfulToastAlert").toast("show");
         $(`#editModal-${id}`).modal('hide');
       },
       error: function (response) {
@@ -28,6 +31,9 @@ function CreateClickHandlersForEditDelete(id) {
       data: { 'treatId': $(`#treatId-${id}`).val() },
       success: function () {
         $(`#deleteModal-${id}`).modal('hide');
+        $("#toastBody").text(`You deletion of ${$(`#treatName-${id}`).val()} was successful`);
+        $("#toastMessage").text("Deleted!");
+        $("#successfulToastAlert").toast("show");
         $(`#treatCard-${id}`).remove();
       },
       error: function (response) {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Bakery.Models;
 using System.Threading.Tasks;
 using Bakery.ViewModels;
+using System;
 
 namespace Bakery.Controllers
 {
@@ -21,12 +22,28 @@ namespace Bakery.Controllers
 
     public ActionResult Index()
     {
-      ViewBag.PageTitle = "Account Details";
+      if (!User.Identity.IsAuthenticated)
+      {
+        ViewBag.AuthPageTitle = "Login";
+      }
+      else
+      {
+        ViewBag.AuthPageTitle = "Account Details";
+      }
+      ViewBag.PageTitle = "Account";
       return View();
     }
 
     public ActionResult Register()
     {
+      if (!User.Identity.IsAuthenticated)
+      {
+        ViewBag.AuthPageTitle = "Login";
+      }
+      else
+      {
+        ViewBag.AuthPageTitle = "Account Details";
+      }
       ViewBag.PageTitle = "Register";
       return View();
     }
@@ -57,10 +74,12 @@ namespace Bakery.Controllers
       Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
       if (result.Succeeded)
       {
+        Console.WriteLine("did work");
         return RedirectToAction("Index");
       }
       else
       {
+        Console.WriteLine("did not work");
         return View();
       }
     }

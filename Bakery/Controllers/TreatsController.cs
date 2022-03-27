@@ -12,7 +12,7 @@ using System;
 
 namespace Library.Controllers
 {
-  // [Authorize]
+  [Authorize]
   public class TreatsController : Controller
   {
     private readonly BakeryContext _db;
@@ -23,9 +23,17 @@ namespace Library.Controllers
       _userManager = userManager;
       _db = db;
     }
-
+    [AllowAnonymous]
     public ActionResult Index()
     {
+      if (!User.Identity.IsAuthenticated)
+      {
+        ViewBag.AuthPageTitle = "Login";
+      }
+      else
+      {
+        ViewBag.AuthPageTitle = "Account Details";
+      }
       List<Treat> model = _db.Treats.Include(e => e.JoinEntities).ThenInclude(join => join.Flavor).ToList();
       ViewBag.ListOfTreats = _db.Treats.ToList();
       ViewBag.ListOfFlavors = _db.Flavors.ToList();

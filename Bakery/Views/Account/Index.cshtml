@@ -12,17 +12,17 @@
 <div class="container bg-light bg-gradient p-5 border rounded-3">
   <div class="mx-5 p-5 border rounded shadow-sm bg-white">
     <h3 class="mb-3">@ViewBag.PageTitle</h3>
-    @if (@ViewBag.PageTitle == "Login")
+    @if (@ViewBag.AuthPageTitle == "Login")
     {
       <div class="row">
         <div class="col-7">
-          @using (Html.BeginForm())
+          @using (Html.BeginForm("Login", "Account"))
           {
             @Html.LabelFor(m => m.Email)
-            @Html.TextBoxFor(m => m.Email, new {@class="form-control mb-3 shadow-sm", placeholder="Enter in your email address"})
+            @Html.TextBoxFor(m => m.Email, new {@class="form-control mb-3 shadow-sm"})
 
             @Html.LabelFor(m => m.Password)
-            @Html.PasswordFor(m => m.Password, new {@class="form-control mb-3 shadow-sm", placeholder="Enter in your password"})
+            @Html.PasswordFor(m => m.Password, new {@class="form-control mb-3 shadow-sm"})
 
             <input type="submit" value="Sign in" class="btn btn-dark mb-3 shadow-sm" />
           }
@@ -34,19 +34,19 @@
         </div>
       </div>
     }
-    else
+    else if (@ViewBag.AuthPageTitle == "Account Details")
     {
       <div class="row">
         <div class="col-8">
           <p>
             <strong>Name</strong>
             <br>
-            Daniel Lindsey
+            Temp
           </p>
           <p>
             <strong>Email</strong>
             <br>
-            daniel@daniel.com
+            @User.Identity.Name
           </p>
 
           <div class="row">
