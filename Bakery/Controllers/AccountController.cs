@@ -4,7 +4,7 @@ using Bakery.Models;
 using System.Threading.Tasks;
 using Bakery.ViewModels;
 using System;
-using System.Security.Principal;
+using System.Text.RegularExpressions;
 
 namespace Bakery.Controllers
 {
@@ -53,8 +53,7 @@ namespace Bakery.Controllers
     {
       // @String.Format("{0:(###) ###-####}", Int64.Parse(phoneNumber));
       var user = await _userManager.GetUserAsync(User);
-      user.PhoneNumber = String.Format("{0:(###) ###-####}", Int64.Parse(phoneNumber));
-      Console.WriteLine("here: " + phoneNumber);
+      user.PhoneNumber = String.Format("{0:(###) ###-####}", Int64.Parse(Regex.Replace(phoneNumber, "[^0-9]", "")));
       IdentityResult result = await _userManager.UpdateAsync(user);
       return RedirectToAction("Index");
     }

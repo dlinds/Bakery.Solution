@@ -7,8 +7,15 @@
   <h3 class="mb-3">@ViewBag.PageTitle</h3>
   <div class="row g-1 ">
     <div class="col-6 p-3 border rounded  bg-white">
-      <h2>Treats!</h2>
-      <p>Click a treat to view more details</p>
+      <h2>Treats</h2>
+      @if (ViewBag.ListOfTreats.Count == 0)
+      {
+        <p>It doesn't look like any treats have been added yet. Please navigate to the flavors page at the top to add some!</p>
+      }
+      else
+      {
+        <p>Click a treat to view its details</p>
+      }
       <div class="accordion accordion-flush" id="accordionFlushExample">
         @foreach (Treat treat in ViewBag.ListOfTreats)
         {
@@ -44,8 +51,15 @@
     <div class="col-1">
     </div>
     <div class="col-5 p-3 border rounded  bg-white">
-      <h2>Flavors!</h2>
-      <p>Click a flavor to view its details</p>
+      <h2>Flavors</h2>
+      @if (ViewBag.ListOfFlavors.Count == 0)
+      {
+        <p>It doesn't look like any flavors have been added yet. Please navigate to the flavors page at the top to add some!</p>
+      }
+      else
+      {
+        <p>Click a flavor to view its details</p>
+      }
       <div class="accordion accordion-flush" id="flavor-accordionFlushExample">
         @foreach (Flavor flavor in ViewBag.ListOfFlavors)
         {
